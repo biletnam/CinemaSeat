@@ -1,0 +1,101 @@
+*{
+	font-family: '微软雅黑' ;
+}
+
+.headdiv{
+	height: 80px;
+	width:100%;
+	background-color: rgba(0,0,0,0.7);
+}
+
+.mainbgc{
+	background-color: rgba(120,120,120,0.9);
+}
+
+.panelchildcontent{
+	position:relative;
+	top:-10px;
+	display: inline-block;
+	width:100%;
+}
+
+
+.businessdiv{
+	height:850px;
+	border:1px solid lightgray;
+	padding:30px;
+	overflow: auto;
+}
+
+.show{
+	display:block;
+}
+.hide{
+	display:none;
+}
+
+.inputfile{
+	font-family: '微软雅黑' ;
+	display:inline-block;
+}
+
+.tabletext{
+	border:none;
+	background-color: #ffffff;
+}
+
+.tablehead{
+	height:30px;
+	font-size: 16px;
+	/* color:#ff3300; */
+	width:100%;
+	text-align: center;
+	
+}
+
+.tablehead tr td{
+	border-right: 1px solid lightgray;
+	width: 14.2%;
+}
+.tablehead tr td:last-child{
+	border-right:none;
+}
+
+
+
+.tablebody{
+	height:20px;
+	font-size: 16px;
+	color:#FF7F24; 
+	width:100%;
+	text-align: center;
+	
+}
+
+.tablebody tr td{
+	border-right: 1px solid lightgray;
+	height:20px;
+	width: 14.2%;
+}
+.tablebody tr td:last-child{
+	border-right:none;
+}
+
+
+.headdiv font{
+	color: white;
+	font-size:32px;
+	display:inline-block;
+	margin-left:30px;
+	margin-top:15px;
+}
+
+
+
+
+
+
+
+
+
+

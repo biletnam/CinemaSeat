@@ -1,0 +1,20 @@
+#MyEclipse Hibernate Properties
+#Fri Oct 21 14:04:22 CST 2016
+genBasicCompId=false
+sessionFactoryName=com.chinasoft.model.dao.factory.HibernateSessionFactory
+profile=
+daoSFId=
+jndiPath=
+detectM2M=false
+reStrategyClass=
+detectO2O=false
+springDaoFile=
+useJavaTypes=true
+keyGenerator=uuid
+genVersionTag=false
+sessionFactoryId=sessionFactory
+basePersistenceClass=
+genAnnotations=false
+reSettingsFile=/CinemaSeat/hibernate.reveng.xml
+configFile=/CinemaSeat/src/applicationContext.xml
+createConfigFile=true

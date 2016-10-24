@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd" xmlns:tx="http://www.springframework.org/schema/tx">
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<!-- <property name="url" value="jdbc:mysql://localhost:3306/chooseseat?useUnicode=true&amp;characterEncoding=UTF-8"></property>
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="wangqi19950229."></property> -->
+		<property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=chooseseat"></property>
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
+		<property name="username" value="sa"></property>
+		<property name="password" value="wangqi19950229."></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		
+		
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>
+					com/chinasoft/model/entity/Seats.hbm.xml
+				</value>
+				<value>
+					com/chinasoft/model/entity/Users.hbm.xml
+				</value>
+				<value>
+					com/chinasoft/model/entity/Roles.hbm.xml
+				</value>
+				<value>
+					com/chinasoft/model/entity/Accounts.hbm.xml
+				</value>
+				<value>
+					com/chinasoft/model/entity/Movies.hbm.xml
+				</value>
+				<value>
+					com/chinasoft/model/entity/Seasons.hbm.xml
+				</value></list>
+		</property></bean>
+		
+		
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- Users -->
+	<bean
+		id="UsersDAO" class="com.chinasoft.model.dao.UsersDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="user" class="com.chinasoft.model.entity.Users"></bean>
+	<bean id="userService" class="com.chinasoft.model.services.impl.UserServiceImpl">
+		<property name="dao" ref="UsersDAO"></property>
+	</bean>
+
+
+	<!-- Accounts -->
+	<bean id="AccountsDAO"
+		class="com.chinasoft.model.dao.AccountsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="account" class="com.chinasoft.model.entity.Accounts"></bean>
+	<bean id="registAction" class="com.chinasoft.controller.actions.registAction">
+		<property name="account" ref="account"></property>
+		<property name="asi" ref="accountService"></property>
+		<property name="ius" ref="userService"></property>
+	</bean>
+	
+	<bean id="accountService" class="com.chinasoft.model.services.impl.AccountServiceImpl">
+		<property name="dao" ref="AccountsDAO"></property>
+		<property name="usi" ref="userService"></property>
+	</bean>
+	
+	
+	
+	
+	<!-- Roles -->
+	<bean id="RolesDAO" class="com.chinasoft.model.dao.RolesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	
+	
+	<!-- Movies -->
+	<bean id="MoviesDAO" class="com.chinasoft.model.dao.MoviesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="movie" class="com.chinasoft.model.entity.Movies"></bean>
+	
+	<bean id="indexAction" class="com.chinasoft.controller.actions.indexAction" >
+		<property name="movie"  ref="movie"></property>
+		<property name="msi"  ref="movieService"></property>
+		<property name="mlist" >
+			<list></list>
+		</property>
+		<property name="pageTotal" value="0"></property>
+	</bean>
+	
+	<bean id="singleAction" class="com.chinasoft.controller.actions.singleAction" >
+		<property name="movie"  ref="movie"></property>
+		<property name="mid"  value=""></property>
+		<property name="msi"  ref="movieService"></property>
+		<property name="ssi"  ref="seasonService"></property>
+		<property name="slist" >
+			<list></list> 
+		</property>
+	</bean>
+	
+	<bean id="movieService" class="com.chinasoft.model.services.impl.MovieServiceImpl">
+		<property name="dao" ref="MoviesDAO"></property>
+		<property name="ssi" ref="seasonService"></property>
+		<property name="issi" ref="seatService"></property>
+	</bean>
+	<bean id="movieAction" class="com.chinasoft.controller.actions.movieAction">
+		<property name="bomovie" ref="bomovie"></property>
+		<property name="msi" ref="movieService"></property>
+<!-- 		<property name="myfile"></property> -->
+		<property name="myfileFileName" value=""></property>
+		<property name="myfileContentType" value=""></property>
+		<property name="filelength"  value="0"></property>
+		<property name="disposition" value=""></property>
+	</bean>
+	<bean id="bomovie" class="com.chinasoft.model.entity.BO_movie">
+		<property name="slist" ><list></list></property>
+		<property name="movie" ref="movie"></property>
+	</bean>
+<!-- 	<bean id="file" class="java.io.File"></bean> -->
+	
+	
+	<!-- Seasons -->
+	<bean id="SeasonsDAO"
+		class="com.chinasoft.model.dao.SeasonsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="season" class="com.chinasoft.model.entity.Seasons"></bean>
+	
+	<bean id="seasonService" class="com.chinasoft.model.services.impl.SeasonServiceImpl">
+		<property name="dao" ref="SeasonsDAO"></property>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- Seat -->
+	<bean id="SeatsDAO" class="com.chinasoft.model.dao.SeatsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="seat" class="com.chinasoft.model.entity.Seats"></bean>
+	<bean id="seatService" class="com.chinasoft.model.services.impl.SeatServiceImpl">
+		<property name="dao" ref="SeatsDAO"></property>
+		<property name="ius" ref="userService"></property>
+	</bean>
+	<bean id="seatAction" class="com.chinasoft.controller.actions.seatAction">
+		<property name="mid" value=""></property>
+		<property name="sid" value=""></property>
+		<property name="issi" ref="seatService"></property>
+		<property name="seat" ref="seat"></property>
+		<property name="seatStr" value=""></property>
+		<property name="msi" ref="movieService"></property>
+		<property name="ssi" ref="seasonService"></property>
+		<property name="movie" ref="movie"></property>
+		<property name="season" ref="season"></property>
+		<property name="sum" value="0"></property>
+	</bean>
+	
+	
+	
+	
+	<!-- 下架显示电影action -->
+	<bean id="undercAction" class="com.chinasoft.controller.actions.undercAction">
+		<property name="bomovielist" ><list></list></property>
+		<property name="ims" ref="movieService"></property>
+		<property name="iss" ref="seasonService"></property>
+		<property name="pageIndex" value="0"></property>
+		<property name="mid" value=""></property>
+		
+	</bean>
+	
+	
+	
+	
+	</beans>
+	
+	
+	
+	
+	
+	
+	
+	

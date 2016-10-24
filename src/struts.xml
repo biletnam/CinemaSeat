@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.locale" value="UTF-8"></constant>
+	<constant name="struts.i18n.encoding" value="utf-8"></constant>
+	<package name="movie" extends="json-default">
+
+		<!-- 显示所有电影信息 -->
+		<action name="index_*" class="indexAction" method="{1}">
+			<result name="input">/index.jsp</result>
+
+			<result type="json">
+				<param name="root">mlist</param>
+			</result>
+
+			<result name="sysmain">/WEB-INF/sysmain.jsp</result>
+
+
+			<!-- jsonValidationWorkflowStack下没有modelDriven 要引入 -->
+			<interceptor-ref name="modelDriven"></interceptor-ref>
+			<interceptor-ref name="jsonValidationWorkflowStack"></interceptor-ref>
+		</action>
+
+		<!-- 查询电影详情 -->
+		<action name="single_*" class="singleAction" method="{1}">
+			<result name="result">/404error.jsp</result>
+			<result>/single.jsp</result>
+			<result name="input">/single.jsp</result>
+		</action>
+
+
+		<!-- 显示电影座位状态 -->
+		<action name="seat_*" class="seatAction" method="{1}">
+			<result name="result">/404error.jsp</result>
+			<result>/chooseseat.jsp</result>
+			<result name="cretic">/ticketcar.jsp</result>
+			<result name="reserved">/404error.jsp</result>
+			<result name="pay">/tradesecceed.jsp</result>
+
+			<result name="input">/chooseseat.jsp</result>
+		</action>
+
+
+		<!-- 注册和登录 -->
+		<action name="regist_*" class="registAction" method="{1}">
+			<result>/login.jsp</result>
+			<result name="notlogin">/login.jsp</result>
+			<result name="login" type="redirectAction">index_input.action</result>
+			<result name="inputLogin">/login.jsp</result>
+			<result name="logout">/login.jsp</result>
+			<result name="input">/register.jsp</result>
+		</action>
+
+
+		<!-- 后台添加电影 -->
+		<action name="movie_*" class="movieAction" method="{1}">
+			<result>/WEB-INF/sysmain.jsp</result>
+			<result name="addmovie" type="redirectAction">index_showSys.action</result>
+			<result name="input">/WEB-INF/sysmain.jsp</result>
+		</action>
+
+
+		<!-- 下架显示电影action -->
+		<action name="underc_*" class="undercAction" method="{1}">
+			<result name="show" type="json">
+				<param name="root">bomovielist</param>
+			</result>
+			<result name="underc" type="redirectAction">underc_showMovieSeasons.action</result>
+		</action>
+
+	</package>
+
+
+
+</struts>    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
